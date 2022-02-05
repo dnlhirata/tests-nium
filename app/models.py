@@ -1,4 +1,7 @@
+from datetime import datetime
 from sqlalchemy import Column
+from sqlalchemy import DateTime
+from sqlalchemy import Enum
 from sqlalchemy import Integer
 from sqlalchemy import ForeignKey
 from sqlalchemy import String
@@ -6,12 +9,15 @@ from sqlalchemy.orm import relationship
 
 from .database import Base
 
+
 class User(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
     first_name = Column(String(30))
     last_name = Column(String(30))
+    modified_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     accounts = relationship('Account', back_populates='user')
 
@@ -20,11 +26,13 @@ class User(Base):
 
 
 class Account(Base):
-    __tablename__ = 'account'
+    __tablename__ = 'accounts'
 
     id = Column(Integer, primary_key=True)
-    type = Column(String(50))
-    user_id = Column(Integer, ForeignKey('user.id'))
+    type = Column(Enum('CHECKING', 'SAVING', name='account_types'))
+    user_id = Column(Integer, ForeignKey('users.id'))
+    modified_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
     user = relationship('User', back_populates='accounts')
 
