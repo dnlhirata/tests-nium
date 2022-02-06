@@ -7,11 +7,10 @@ services:
       - .:/code
     ports:
       - "8000:8000"
-    environment:
-      - DB_STRING_CONN=postgresql+psycopg2://postgres:postgres@db:5432/postgres
     depends_on:
       - db
-
+    env_file:
+      - ./.env
   db:
     image: postgres:latest
     container_name: db

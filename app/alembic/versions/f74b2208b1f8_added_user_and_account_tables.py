@@ -1,8 +1,8 @@
 """Added user and account tables
 
-Revision ID: 614f8506ef06
+Revision ID: f74b2208b1f8
 Revises: 
-Create Date: 2022-02-05 21:56:44.169288
+Create Date: 2022-02-06 20:01:25.097786
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '614f8506ef06'
+revision = 'f74b2208b1f8'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -28,6 +28,7 @@ def upgrade():
     )
     op.create_table('accounts',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=50), nullable=True),
     sa.Column('type', sa.Enum('CHECKING', 'SAVING', name='account_types'), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.Column('modified_at', sa.DateTime(), nullable=True),
@@ -43,3 +44,7 @@ def downgrade():
     op.drop_table('accounts')
     op.drop_table('users')
     # ### end Alembic commands ###
+
+    priority = sa.Enum('CHECKING', 'SAVING', name='account_types')
+    priority.drop(op.get_bind())
+
