@@ -65,3 +65,17 @@ def test_update_account(client: TestClient, db: Session) -> None:
 
     assert response.status_code == 200
     assert content['name'] == name
+
+
+def test_delete_account(client: TestClient, db: Session) -> None:
+    account_factory = AccountFactory(db)
+    account = account_factory.create()
+
+    response = client.delete(f'/accounts/{account.id}', headers={"X-Token": faker.word()})
+    content = response.json()
+
+    assert response.status_code == 200
+    assert content['id'] == account.id
+
+    response = client.get(f'/accounts/{account.id}')
+    assert response.status_code == 404

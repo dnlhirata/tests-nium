@@ -38,3 +38,10 @@ def update_account(db: Session, account: AccountSchema, account_data: AccountUpd
     db.refresh(account)
 
     return account
+
+
+def delete_account(db: Session, account_id: int):
+    account = db.query(Account).get(account_id)
+    db.delete(account)
+    db.commit()
+    return account

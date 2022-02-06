@@ -4,6 +4,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from crud.account import create_account as crud_create_account
+from crud.account import delete_account
 from crud.account import get_account
 from crud.account import get_accounts
 from crud.account import update_account as crud_update_account
@@ -45,4 +46,12 @@ def update_account(account_id: int, account_data: AccountUpdateSchema, db: Sessi
         raise HTTPException(status_code=404, detail="Account not found")
     
     return crud_update_account(db=db, account=db_account, account_data=account_data)
+
+
+@router.delete('/{account_id}', response_model=AccountSchema)
+def remove_account(account_id: int, db: Session = Depends(get_db)):
+    db_account = get_account(db=db, account_id=account_id)
+    if db_account is None:
+        raise HTTPException(status_code=404, detail="Account not found")
     
+    return delete_account(db=db, account_id=account_id)

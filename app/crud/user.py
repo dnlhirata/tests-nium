@@ -35,3 +35,10 @@ def update_user(db: Session, user: UserSchema, user_data: UserUpdateSchema):
     db.refresh(user)
 
     return user
+
+
+def delete_user(db: Session, user_id: int):
+    user = db.query(User).get(user_id)
+    db.delete(user)
+    db.commit()
+    return user

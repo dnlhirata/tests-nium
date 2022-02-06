@@ -2,6 +2,7 @@ from faker import Faker
 from sqlalchemy.orm import Session
 
 from crud.account import create_account
+from crud.account import delete_account
 from crud.account import get_account
 from crud.account import get_accounts
 from crud.account import update_account
@@ -60,3 +61,14 @@ def test_update_account(db: Session) -> None:
     updated_account = update_account(db=db, account=account, account_data=data)
 
     assert updated_account.name == name
+
+
+def test_delete_account(db: Session) -> None:
+    account_factory = AccountFactory(db)
+    account = account_factory.create()
+
+    deleted_account = delete_account(db=db, account_id=account.id)
+    assert deleted_account.id == account.id
+
+    account = get_account(db=db, account_id=account.id)
+    assert account == None

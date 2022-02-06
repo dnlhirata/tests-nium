@@ -60,3 +60,17 @@ def test_update_user(client: TestClient, db: Session) -> None:
 
     assert response.status_code == 200
     assert content['first_name'] == first_name
+
+
+def test_delete_user(client: TestClient, db: Session) -> None:
+    user_factory = UserFactory(db)
+    user = user_factory.create()
+
+    response = client.delete(f'/users/{user.id}', headers={"X-Token": faker.word()})
+    content = response.json()
+
+    assert response.status_code == 200
+    assert content['id'] == user.id
+
+    response = client.get(f'/users/{user.id}')
+    assert response.status_code == 404
