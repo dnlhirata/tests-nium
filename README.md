@@ -3,7 +3,6 @@ This project is a coding test for a Backend Developer position at Nium and was d
 
 # Technologies and libs
 - Python 3.10
-- PostgreSQL 14
 - FastAPI
 - SQLAlchemy
 - Alembic
