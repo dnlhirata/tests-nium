@@ -2,6 +2,7 @@ from fastapi import APIRouter
 from fastapi import Depends
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
+from typing import Any
 
 from crud.account import create_account as crud_create_account
 from crud.account import delete_account
@@ -21,12 +22,12 @@ router = APIRouter(
 
 
 @router.get('/', response_model=list[AccountSchema])
-def list_users(db: Session = Depends(get_db)):
+def list_accounts(db: Session = Depends(get_db)) -> Any:
     return get_accounts(db)
 
 
 @router.get("/{account_id}", response_model=AccountSchema)
-def retrieve_account(account_id: int, db: Session = Depends(get_db)):
+def retrieve_account(account_id: int, db: Session = Depends(get_db)) -> Any:
     db_account = get_account(db=db, account_id=account_id)
     if db_account is None:
         raise HTTPException(status_code=404, detail="Account not found")
@@ -34,13 +35,20 @@ def retrieve_account(account_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=AccountSchema)
-def create_user(account: AccountCreateSchema, db: Session = Depends(get_db)):
+def create_account(
+    account: AccountCreateSchema,
+    db: Session = Depends(get_db)
+) -> Any:
     created_account = crud_create_account(db=db, account=account)
     return created_account
 
 
 @router.put('/{account_id}', response_model=AccountSchema)
-def update_account(account_id: int, account_data: AccountUpdateSchema, db: Session = Depends(get_db)):
+def update_account(
+    account_id: int,
+    account_data: AccountUpdateSchema,
+    db: Session = Depends(get_db)
+) -> Any:
     db_account = get_account(db=db, account_id=account_id)
     if db_account is None:
         raise HTTPException(status_code=404, detail="Account not found")
@@ -49,7 +57,7 @@ def update_account(account_id: int, account_data: AccountUpdateSchema, db: Sessi
 
 
 @router.delete('/{account_id}', response_model=AccountSchema)
-def remove_account(account_id: int, db: Session = Depends(get_db)):
+def remove_account(account_id: int, db: Session = Depends(get_db)) -> Any:
     db_account = get_account(db=db, account_id=account_id)
     if db_account is None:
         raise HTTPException(status_code=404, detail="Account not found")

@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from typing import List
 
 from models.user import User as User
 from schemas.user import User as UserSchema
@@ -6,15 +7,15 @@ from schemas.user import UserCreate as UserCreateSchema
 from schemas.user import UserUpdate as UserUpdateSchema
 
 
-def get_user(db: Session, user_id: int):
+def get_user(db: Session, user_id: int) -> User:
     return db.query(User).filter(User.id == user_id).first()
 
 
-def get_users(db: Session):
+def get_users(db: Session) -> List[User]:
     return db.query(User).all()
 
 
-def create_user(db: Session, user: UserCreateSchema):
+def create_user(db: Session, user: UserCreateSchema) -> User:
     db_user = User(first_name=user.first_name, last_name=user.last_name)
     db.add(db_user)
     db.commit()
@@ -23,7 +24,11 @@ def create_user(db: Session, user: UserCreateSchema):
     return db_user
 
 
-def update_user(db: Session, user: UserSchema, user_data: UserUpdateSchema):
+def update_user(
+    db: Session,
+    user: UserSchema,
+    user_data: UserUpdateSchema
+) -> User:
     data = user_data.dict(exclude_unset=True)
 
     for field in data:
@@ -37,7 +42,7 @@ def update_user(db: Session, user: UserSchema, user_data: UserUpdateSchema):
     return user
 
 
-def delete_user(db: Session, user_id: int):
+def delete_user(db: Session, user_id: int) -> User:
     user = db.query(User).get(user_id)
     db.delete(user)
     db.commit()

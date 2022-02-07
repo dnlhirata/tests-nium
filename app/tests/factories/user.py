@@ -2,17 +2,17 @@ from faker import Faker
 from sqlalchemy.orm import Session
 
 from crud.user import create_user
-from schemas.user import User as UserSchema
+from models.user import User
 from schemas.user import UserCreate as UserSchemaCreate
 
 faker = Faker('en_US')
 
 
 class UserFactory(object):
-    def __init__(self, db: Session):
+    def __init__(self, db: Session) -> None:
         self.db = db
 
-    def create(self) -> UserSchema:
+    def create(self) -> User:
         first_name = faker.first_name()
         last_name = faker.last_name()
 
