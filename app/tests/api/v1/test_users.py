@@ -38,7 +38,7 @@ def test_create_user(client: TestClient, db: Session) -> None:
     first_name, last_name = faker.first_name(), faker.last_name()
     data = {'first_name': first_name, 'last_name': last_name}
 
-    response = client.post('/users/', headers={"X-Token": faker.word()}, json=data)
+    response = client.post('/users/', headers={'X-Token': faker.word()}, json=data)
     content = response.json()
 
     assert response.status_code == 200
@@ -55,7 +55,7 @@ def test_update_user(client: TestClient, db: Session) -> None:
 
     assert user.first_name != first_name
 
-    response = client.put(f'/users/{user.id}', headers={"X-Token": faker.word()}, json=data)
+    response = client.put(f'/users/{user.id}', headers={'X-Token': faker.word()}, json=data)
     content = response.json()
 
     assert response.status_code == 200
@@ -66,7 +66,7 @@ def test_delete_user(client: TestClient, db: Session) -> None:
     user_factory = UserFactory(db)
     user = user_factory.create()
 
-    response = client.delete(f'/users/{user.id}', headers={"X-Token": faker.word()})
+    response = client.delete(f'/users/{user.id}', headers={'X-Token': faker.word()})
     content = response.json()
 
     assert response.status_code == 200

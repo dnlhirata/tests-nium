@@ -43,7 +43,7 @@ def test_create_account(client: TestClient, db: Session) -> None:
 
     data = {'name': name, 'type': type, 'user_id': user.id}
 
-    response = client.post('/accounts/', headers={"X-Token": faker.word()}, json=data)
+    response = client.post('/accounts/', headers={'X-Token': faker.word()}, json=data)
     content = response.json()
 
     assert response.status_code == 200
@@ -60,7 +60,7 @@ def test_update_account(client: TestClient, db: Session) -> None:
 
     assert account.name != name
 
-    response = client.put(f'/accounts/{account.id}', headers={"X-Token": faker.word()}, json=data)
+    response = client.put(f'/accounts/{account.id}', headers={'X-Token': faker.word()}, json=data)
     content = response.json()
 
     assert response.status_code == 200
@@ -71,7 +71,7 @@ def test_delete_account(client: TestClient, db: Session) -> None:
     account_factory = AccountFactory(db)
     account = account_factory.create()
 
-    response = client.delete(f'/accounts/{account.id}', headers={"X-Token": faker.word()})
+    response = client.delete(f'/accounts/{account.id}', headers={'X-Token': faker.word()})
     content = response.json()
 
     assert response.status_code == 200

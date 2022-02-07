@@ -26,15 +26,15 @@ def list_users(db: Session = Depends(get_db)) -> Any:
     return get_users(db)
 
 
-@router.get("/{user_id}", response_model=UserSchema)
+@router.get('/{user_id}', response_model=UserSchema)
 def retrieve_user(user_id: int, db: Session = Depends(get_db)) -> Any:
     db_user = get_user(db=db, user_id=user_id)
     if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail='User not found')
     return db_user
 
 
-@router.post("/", response_model=UserSchema)
+@router.post('/', response_model=UserSchema)
 def create_user(user: UserCreateSchema, db: Session = Depends(get_db)) -> Any:
     created_user = crud_create_user(db=db, user=user)
     return created_user
@@ -48,7 +48,7 @@ def update_user(
 ) -> Any:
     db_user = get_user(db=db, user_id=user_id)
     if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail='User not found')
     
     return crud_update_user(db=db, user=db_user, user_data=user_data)
 
@@ -57,6 +57,6 @@ def update_user(
 def remove_user(user_id: int, db: Session = Depends(get_db)) -> Any:
     db_user = get_user(db=db, user_id=user_id)
     if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=404, detail='User not found')
     
     return delete_user(db=db, user_id=user_id)

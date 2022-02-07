@@ -26,15 +26,15 @@ def list_accounts(db: Session = Depends(get_db)) -> Any:
     return get_accounts(db)
 
 
-@router.get("/{account_id}", response_model=AccountSchema)
+@router.get('/{account_id}', response_model=AccountSchema)
 def retrieve_account(account_id: int, db: Session = Depends(get_db)) -> Any:
     db_account = get_account(db=db, account_id=account_id)
     if db_account is None:
-        raise HTTPException(status_code=404, detail="Account not found")
+        raise HTTPException(status_code=404, detail='Account not found')
     return db_account
 
 
-@router.post("/", response_model=AccountSchema)
+@router.post('/', response_model=AccountSchema)
 def create_account(
     account: AccountCreateSchema,
     db: Session = Depends(get_db)
@@ -51,7 +51,7 @@ def update_account(
 ) -> Any:
     db_account = get_account(db=db, account_id=account_id)
     if db_account is None:
-        raise HTTPException(status_code=404, detail="Account not found")
+        raise HTTPException(status_code=404, detail='Account not found')
     
     return crud_update_account(db=db, account=db_account, account_data=account_data)
 
@@ -60,6 +60,6 @@ def update_account(
 def remove_account(account_id: int, db: Session = Depends(get_db)) -> Any:
     db_account = get_account(db=db, account_id=account_id)
     if db_account is None:
-        raise HTTPException(status_code=404, detail="Account not found")
+        raise HTTPException(status_code=404, detail='Account not found')
     
     return delete_account(db=db, account_id=account_id)
