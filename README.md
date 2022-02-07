@@ -1,5 +1,16 @@
 # About this project
-This project is a coding test for a Backend Developer position at Nium and was developed and tested on Apple M1 running MacOS Monterey 12.1. Also was tested on a Ubuntu 20.04
+This project is a coding test for a Backend Developer position at Nium and was developed and tested on Apple M1 running MacOS Monterey 12.1. Also was tested on a Ubuntu 20.04.
+
+### Project instruction
+Create simple CRUD endpoints for Users and Accounts using SQLAlchmey and FastAPI.
+- system must allow `create`, `update`, `read`, `delete` and `list` the objects
+- system must include tests
+- system have no requirements for authentication
+
+#### Personal implementations
+- Alembic for migrations
+- Very simple Blockchain for transactions
+- Docker to simplify the execution of the app
 
 # Technologies and libs
 - Python 3.10
@@ -11,10 +22,10 @@ This project is a coding test for a Backend Developer position at Nium and was d
 - Docker
 
 # TODOs
-- Implement Account transactions, such as deposit, withdraw and transfer
-- Implement simple Blockchain
+- Establish consensus and decentralization for the Blockchain
 - Implement Redis for caching
 - Implement Celery for queuing
+
 # Running the app
 1. Clone project to a directory of your preference
 2. On the directory that the project was cloned run `docker-compose up`
